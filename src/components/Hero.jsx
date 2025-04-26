@@ -1,6 +1,7 @@
 import React from 'react'
 import {HERO_CONTENT} from '../constants/index.js'
 import profilePic from '../assets/kevinRushProfile.png'
+import tech from '../assets/undraw_ai_agent_pdkp.svg'
 import { motion } from "motion/react"
 // import { delay } from 'motion'
 
@@ -52,7 +53,9 @@ const Hero = () => {
                     initial={{ x: 100, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ duration: 1, delay: 1.2 }}
-                    src={profilePic} alt="Kevin Rush" />
+                    //src={profilePic} alt="Kevin Rush"
+                    src={tech} 
+                    />
                 </div>
             </div>
         </div>
