@@ -1,5 +1,6 @@
 import React from 'react'
 import aboutImg from '../assets/about.jpg'
+import server from '../assets/server_b.mp4'
 import {ABOUT_TEXT} from '../constants/index.js'
 import { motion } from "motion/react"
 
@@ -12,7 +13,7 @@ const About = () => {
             <span className="text-neutral-500"> Me</span>
         </h2>
         <div className="flex flex-wrap">
-            <motion.div 
+{/*             <motion.div 
             whileInView={{ opacity: 1, x: 0 }}
             initial={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.5 }}
@@ -20,7 +21,28 @@ const About = () => {
                 <div className="flex items-center justify-center">
                     <img className="rounded-2xl" src={aboutImg} alt="about" />
                 </div>
+            </motion.div> */}
+
+          <motion.div 
+            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: -100 }}
+            transition={{ duration: 0.5 }}
+            className="w-full lg:w-1/2 lg:p-8"
+            >
+            <div className="flex justify-center lg:justify-center flex-col items-center">
+                <video 
+                className="rounded-xl w-full max-w-md mb-6"
+                autoPlay 
+                loop 
+                muted 
+                playsInline
+                >
+                <source src={server} type="video/mp4" />
+                Your browser does not support the video tag.
+                </video>
+            </div>
             </motion.div>
+          
             <motion.div 
             whileInView={{ opacity: 1, x: 0 }}
             initial={{ opacity: 0, x: 100 }}
