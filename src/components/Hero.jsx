@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {HERO_CONTENT} from '../constants/index.js'
 import profilePic from '../assets/kevinRushProfile.png'
 import tech from '../assets/undraw_ai_agent_pdkp.svg'
-import resume from '../assets/edit1_res.pdf'
+import resume from '../assets/amrit_ranjan_res.pdf'
 import { motion } from "motion/react"
 // import { delay } from 'motion'
 
