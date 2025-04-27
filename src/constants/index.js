@@ -1,7 +1,9 @@
+import { desc } from "motion/react-client";
 import project1 from "../assets/projects/project-1.jpg";
 import project2 from "../assets/projects/project-2.jpg";
 import project3 from "../assets/projects/project-3.jpg";
 import project4 from "../assets/projects/project-4.jpg";
+import { time } from "motion";
 
 // export const HERO_CONTENT = `I am a passionate full stack developer with a knack for crafting robust and scalable web applications. With 5 years of hands-on experience, I have honed my skills in front-end technologies like React and Next.js, as well as back-end technologies like Node.js, MySQL, PostgreSQL, and MongoDB. My goal is to leverage my expertise to create innovative solutions that drive business growth and deliver exceptional user experiences.`;
 
@@ -42,32 +44,39 @@ I collaborated closely with cross-functional teams to optimize backend solutions
 
 export const PROJECTS = [
   {
-    title: "E-Commerce Website",
+    title: "iTDM (Avo Automation)",
     image: project1,
+    // description:
+    //   "A test data management solution developed as part of the Ao Automation team. I focused on building backend components for data extraction, dynamic data masking, and test data provisioning. The product helps streamline data management, improve security compliance (GDPR, CCPA), and enhance integration with diverse data sources (SQL, NoSQL, and file storage). My contributions also involved optimizing the execution components of our internal test automation tool, boosting efficiency in testing workflows.",
     description:
-      "A fully functional e-commerce website with features like product listing, shopping cart, and user authentication.",
-    technologies: ["HTML", "CSS", "React", "Node.js", "MongoDB"],
+      "Developed backend components for the iTDM product, focusing on data extraction, dynamic data masking, and secure data provisioning. Optimized integration with SQL, NoSQL, and file storage, improving testing efficiency. Contributed to the execution framework of our internal test automation tool, enhancing scalability and performance.",
+    technologies: ["Python", "PySpark", "Flask", "Cassandra", "SQL databases", "NoSQL", "Git"],
+    timeline: "Aug 2023 - Present",
   },
   {
-    title: "Task Management App",
-    image: project2,
-    description:
-      "An application for managing tasks and projects, with features such as task creation, assignment, and progress tracking.",
-    technologies: ["HTML", "CSS", "Angular", "Firebase"],
-  },
-  {
-    title: "Portfolio Website",
-    image: project3,
-    description:
-      "A personal portfolio website showcasing projects, skills, and contact information.",
-    technologies: ["HTML", "CSS", "React", "Bootstrap"],
-  },
-  {
-    title: "Blogging Platform",
+    title: "Assure (Avo Automation)",
     image: project4,
     description:
-      "A platform for creating and publishing blog posts, with features like rich text editing, commenting, and user profiles.",
-    technologies: ["HTML", "CSS", "Vue.js", "Express", "mySQL"],
+      "Worked on optimizing the execution component of Assure, test automation product. Focused on enhancing the efficiency and performance of test case execution. Additionally, contributed to folder structure optimization, improving the organization and scalability of the project for better maintainability.",
+    technologies: ["Node.js", "JavaScript", "MongoDB", "Git", "GitHub"],
+    timeline: "Aug 2023 - Present",
+  },
+  {
+    title: "QuickBots (Bot IT Services)",
+    image: project2,
+    // description:
+    //   "Developed APIs and backend services for a variety of data extraction and reconciliation tasks, including ESI, EPF, TDS data extraction, invoice reconciliation, and business card data extraction. I worked on handling large datasets, ensuring that the backend systems were scalable, and helped deliver production-ready solutions for clients in diverse sectors. This included collaborating with cross-functional teams to ensure seamless deployment and integration.",
+    description: "Built APIs for data extraction and reconciliation tasks, including ESI, EPF, TDS, GSTR2B, Swiggy and Zomato. Worked on scalable backend systems for diverse clients, optimizing deployment and ensuring robust production environments.",
+    technologies: ["Python", "Flask", "Pandas", "MySQL", "MongoDB", "Docker", "Kubernetes", "Azure" , "Git", "GitHub"],
+    timeline: "Jul 2022 - Jun 2023",
+  },
+  {
+    title: "CodeInsight (Bot IT Services)",
+    image: project3,
+    description: "Developed the backend for a code grading application that automates the evaluation of UiPath and Automation Anywhere scripts, ensuring quality compliance and improving deployment efficiency.",
+      // "Developed the backend for an application that automates the grading of UiPath and Automation Anywhere scripts. I focused on building the core functionality to evaluate scripts based on defined rules and automate the quality-checking process. The system ensured the scripts adhered to quality standards, improving overall script deployment efficiency and ensuring compliance.",
+    technologies: ["Python", "Flask", "Git", "GitHub", ],
+    timeline: "May 2022 - Jun 2022",
   },
 ];
 
