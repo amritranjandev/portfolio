@@ -1,8 +1,150 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  font-family: "Inter", sans-serif;
+  --ink: #0a0a0f;
+  --paper: #f5f0e8;
+  --paper2: #ede8dc;
+  --paper3: #e4dece;
+  --amber: #e8920a;
+  --amber-l: #fdecc8;
+  --amber-d: #7a4a00;
+  --teal: #0d9e7a;
+  --teal-l: #d0f5eb;
+  --teal-d: #054d3a;
+  --coral: #e05c3a;
+  --coral-l: #fde8e2;
+  --coral-d: #7a2510;
+  --violet: #7c4dff;
+  --violet-l: #ede8ff;
+  --blue: #3b6dd8;
+  --blue-l: #dce8ff;
+  --ink2: #3a3848;
+  --ink3: #7a7890;
+  --border: rgba(10, 10, 15, 0.1);
+  --border-strong: rgba(10, 10, 15, 0.2);
+  font-family: 'Bricolage Grotesque', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--amber);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--amber);
+  border-radius: 2px;
+}
+
+/* ── Char split animation (pretext-style) ── */
+.char {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+.char-inner {
+  display: inline-block;
+  transform: translateY(110%);
+}
+.char-inner.animated {
+  animation: charDrop 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes charDrop {
+  from { transform: translateY(110%); }
+  to   { transform: translateY(0); }
+}
+
+/* ── Word split animation ── */
+.word-outer {
+  display: inline-block;
+  overflow: hidden;
+  margin-right: 0.25em;
+  vertical-align: bottom;
+}
+.word-inner {
+  display: inline-block;
+  transform: translateY(105%);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.words-visible .word-inner {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ── Scroll reveal ── */
+.reveal,
+.reveal-l,
+.reveal-r {
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal   { transform: translateY(32px); }
+.reveal-l { transform: translateX(-32px); }
+.reveal-r { transform: translateX(32px); }
+.reveal.vis,
+.reveal-l.vis,
+.reveal-r.vis {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Pulse dot ── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(1.4); }
+}
+
+/* ── Marquee ── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ── Periodic element spring pop ── */
+@keyframes elPop {
+  from { opacity: 0; transform: scale(0.6) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ── Typewriter cursor blink ── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.tw-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--amber);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
 }

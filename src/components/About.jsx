@@ -1,59 +1,119 @@
 import React from 'react'
-import aboutImg from '../assets/about.jpg'
-import server from '../assets/server_b.mp4'
-import {ABOUT_TEXT} from '../constants/index.js'
-import { motion } from "motion/react"
+import { WordHeading } from './WordHeading'
+import { useReveal } from '../hooks/useReveal'
+import { ABOUT_TEXT } from '../constants'
 
+const stats = [
+  { num: '3+',  label: 'Years' },
+  { num: '4',   label: 'Projects' },
+  { num: '14',  label: 'Technologies' },
+  { num: '2',   label: 'Companies' },
+]
 
 const About = () => {
-  return (
-    <div className="border-b border-neutral-900 pb-4">
-        <h2 className="my-20 text-center text-4xl">
-            About
-            <span className="text-neutral-500"> Me</span>
-        </h2>
-        <div className="flex flex-wrap">
-{/*             <motion.div 
-            whileInView={{ opacity: 1, x: 0 }}
-            initial={{ opacity: 0, x: -100 }}
-            transition={{ duration: 0.5 }}
-            className="w-full lg:w-1/2 lg:p-8">
-                <div className="flex items-center justify-center">
-                    <img className="rounded-2xl" src={aboutImg} alt="about" />
-                </div>
-            </motion.div> */}
+  const leftRef  = useReveal()
+  const rightRef = useReveal()
 
-          <motion.div 
-            whileInView={{ opacity: 1, x: 0 }}
-            initial={{ opacity: 0, x: -100 }}
-            transition={{ duration: 0.5 }}
-            className="w-full lg:w-1/2 lg:p-8"
-            >
-            <div className="flex justify-center lg:justify-center flex-col items-center">
-                <video 
-                className="rounded-xl w-full max-w-md mb-6"
-                autoPlay 
-                loop 
-                muted 
-                playsInline
-                >
-                <source src={server} type="video/mp4" />
-                Your browser does not support the video tag.
-                </video>
-            </div>
-            </motion.div>
-          
-            <motion.div 
-            whileInView={{ opacity: 1, x: 0 }}
-            initial={{ opacity: 0, x: 100 }}
-            transition={{ duration: 0.5 }}
-            className="w-full lg:w-1/2">
-                <div className="flex justify-center lg:justify-center">
-                        <p className="my-2 max-w-xl py-6">{ABOUT_TEXT}</p>
-                </div>
-            </motion.div>
+  return (
+    <section
+      id="about"
+      style={{
+        padding: '8rem 3rem',
+        display: 'grid',
+        gridTemplateColumns: '2fr 3fr',
+        gap: '5rem',
+        alignItems: 'start',
+        borderBottom: '1px solid var(--border)',
+      }}
+    >
+      {/* LEFT */}
+      <div ref={leftRef} className="reveal-l">
+        <div style={{
+          fontFamily: "'Space Mono', monospace",
+          fontSize: '0.65rem',
+          letterSpacing: '0.2em',
+          textTransform: 'uppercase',
+          color: 'var(--ink3)',
+          marginBottom: '1rem',
+        }}>
+          01 / About
         </div>
-    </div>
+
+        <WordHeading
+          text="Who I am"
+          style={{
+            fontFamily: "'Unbounded', sans-serif",
+            fontSize: 'clamp(2rem, 4vw, 3.5rem)',
+            fontWeight: 900,
+            lineHeight: 0.9,
+            letterSpacing: '-0.04em',
+            marginBottom: '2rem',
+            display: 'block',
+          }}
+        />
+
+        {/* Stats grid */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '1px',
+          background: 'var(--border)',
+          border: '1px solid var(--border)',
+        }}>
+          {stats.map(({ num, label }) => (
+            <div
+              key={label}
+              style={{
+                background: 'var(--paper)',
+                padding: '1.5rem',
+                textAlign: 'center',
+                transition: 'background 0.2s',
+                cursor: 'default',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.background = 'var(--amber-l)')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'var(--paper)')}
+            >
+              <div style={{
+                fontFamily: "'Unbounded', sans-serif",
+                fontSize: '2.5rem',
+                fontWeight: 900,
+                color: 'var(--amber)',
+                lineHeight: 1,
+              }}>
+                {num}
+              </div>
+              <div style={{
+                fontFamily: "'Space Mono', monospace",
+                fontSize: '0.6rem',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: 'var(--ink3)',
+                marginTop: '0.35rem',
+              }}>
+                {label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* RIGHT */}
+      <div ref={rightRef} className="reveal-r" style={{ paddingTop: '4rem' }}>
+        {ABOUT_TEXT.split('\n').filter(Boolean).map((para, i) => (
+          <p
+            key={i}
+            style={{
+              fontSize: '0.95rem',
+              lineHeight: 1.9,
+              color: 'var(--ink2)',
+              marginBottom: '1.25rem',
+            }}
+          >
+            {para}
+          </p>
+        ))}
+      </div>
+    </section>
   )
 }
 

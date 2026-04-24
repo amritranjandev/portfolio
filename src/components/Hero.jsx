@@ -1,223 +1,353 @@
-import React, { useState } from 'react'
-import {HERO_CONTENT} from '../constants/index.js'
-import profilePic from '../assets/kevinRushProfile.png'
-import tech from '../assets/undraw_ai_agent_pdkp.svg'
+import React, { useEffect, useState, useRef } from 'react'
+import { CharHeading } from './WordHeading'
+import { HERO_CONTENT } from '../constants'
 import resume from '../assets/amrit_ranjan_res.pdf'
-import { motion } from "motion/react"
-// import { delay } from 'motion'
 
-  
+const PHRASES = [
+  'Data Extraction',
+  'API Engineering',
+  'Backend Systems',
+  'Test Data Mgmt',
+  'Cloud Deployment',
+]
 
-const container = (delay) => ({
-    hidden: { x: -100, opacity: 0 },
-    visible: {
-        x: 0,
-        opacity: 1,
-        transition: {
-            duration: 0.5,
-            delay: delay,
+function useTypewriter(phrases, typingSpeed = 85, deletingSpeed = 45, pauseMs = 1800) {
+  const [display, setDisplay] = useState('')
+  const [phraseIdx, setPhraseIdx] = useState(0)
+  const [charIdx, setCharIdx] = useState(0)
+  const [deleting, setDeleting] = useState(false)
+
+  useEffect(() => {
+    const phrase = phrases[phraseIdx % phrases.length]
+    const timeout = setTimeout(() => {
+      if (!deleting) {
+        setDisplay(phrase.slice(0, charIdx + 1))
+        if (charIdx + 1 === phrase.length) {
+          setTimeout(() => setDeleting(true), pauseMs)
+        } else {
+          setCharIdx(c => c + 1)
         }
-    },
-})
+      } else {
+        setDisplay(phrase.slice(0, charIdx - 1))
+        if (charIdx - 1 === 0) {
+          setDeleting(false)
+          setPhraseIdx(i => i + 1)
+          setCharIdx(0)
+        } else {
+          setCharIdx(c => c - 1)
+        }
+      }
+    }, deleting ? deletingSpeed : typingSpeed)
+    return () => clearTimeout(timeout)
+  }, [charIdx, deleting, phraseIdx, phrases, typingSpeed, deletingSpeed, pauseMs])
+
+  return display
+}
+
+const StatCard = ({ label, value, sub, accentColor = 'var(--amber)' }) => (
+  <div
+    style={{
+      background: 'var(--paper)',
+      border: '1px solid var(--border)',
+      padding: '1.25rem 1.5rem',
+      position: 'relative',
+      overflow: 'hidden',
+    }}
+  >
+    <div
+      style={{
+        position: 'absolute',
+        left: 0, top: 0, bottom: 0,
+        width: 3,
+        background: accentColor,
+      }}
+    />
+    <div style={{
+      fontFamily: "'Space Mono', monospace",
+      fontSize: '0.6rem',
+      letterSpacing: '0.15em',
+      textTransform: 'uppercase',
+      color: 'var(--ink3)',
+      marginBottom: '0.4rem',
+    }}>
+      {label}
+    </div>
+    <div style={{
+      fontFamily: "'Unbounded', sans-serif",
+      fontSize: value.length > 4 ? '1rem' : '2rem',
+      fontWeight: 700,
+      color: 'var(--ink)',
+      lineHeight: 1.1,
+    }}>
+      {value}
+    </div>
+    {sub && (
+      <div style={{
+        fontSize: '0.75rem',
+        color: 'var(--ink3)',
+        marginTop: '0.25rem',
+      }}>
+        {sub}
+      </div>
+    )}
+  </div>
+)
 
 const Hero = () => {
-    const [isOpen, setIsOpen] = useState(false);
+  const twText = useTypewriter(PHRASES)
+  const [resumeOpen, setResumeOpen] = useState(false)
+
   return (
-    <div className="border-b border-neutral-900 pb-4 lg:mb-35">
-        <div className="flex flex-wrap">
-            <div className='w-full lg:w-1/2'>
-                <div className="flex flex-col items-center lg:items-start">
-                    <motion.h1 
-                    variants={container(0)}
-                    initial="hidden"
-                    animate="visible"
-                    className="pb-16 text-6xl font-thin tracking-tight lg:mt-16 lg:text-8xl">
-                    Amrit Ranjan
-                    </motion.h1>
-                    <motion.span 
-                    variants={container(0.5)}
-                    initial="hidden"
-                    animate="visible"
-                    className="bg-gradient-to-r from-pink-300 via-slate-500
-                    to-purple-500 bg-clip-text text-3xl tracking-tight text-transparent">
-                        Python Developer
-                    </motion.span>
-                    <motion.p 
-                    variants={container(1)}
-                    initial="hidden"
-                    animate="visible"
-                    className="my-2 max-w-xl py-6 font-light tracking-tighter">
-                        {HERO_CONTENT}
-                    </motion.p>
-                </div>
-            </div>
-            <div className='w-full lg:w-1/2 lg:p-8'>
+    <>
+      <section
+        id="hero"
+        style={{
+          minHeight: '100vh',
+          padding: '6rem 3rem 4rem',
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '4rem',
+          alignItems: 'center',
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Right-side background stripe */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            top: 0, right: 0,
+            width: '45%',
+            height: '100%',
+            background: 'var(--paper2)',
+            clipPath: 'polygon(10% 0, 100% 0, 100% 100%, 0% 100%)',
+            zIndex: 0,
+          }}
+        />
 
-                {/* <div className='flex justify-center'>
-                    <motion.img 
-                    initial={{ x: 100, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ duration: 1, delay: 1.2 }}
-                    // src={profilePic} alt="Kevin Rush" 
-                    src={tech} 
-                    />
-                </div> */}
+        {/* LEFT COLUMN */}
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          {/* Eyebrow */}
+          <div style={{
+            fontFamily: "'Space Mono', monospace",
+            fontSize: '0.65rem',
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            color: 'var(--amber)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.75rem',
+            marginBottom: '2rem',
+          }}>
+            <span style={{ display: 'inline-block', width: '2rem', height: '2px', background: 'var(--amber)' }} />
+            Python Developer · Backend Engineer
+          </div>
 
-                {/* <div className='relative flex justify-center'> */}
-                <div className="flex flex-col items-center">
-                    <motion.div 
-                            initial={{ x: 100, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            transition={{ duration: 1, delay: 1.2 }}
-                            className="flex flex-col items-center"
-                        >
-                            <img
-                                src={tech}
-                                alt="Backend Developer Illustration"
-                                className="rounded-xl w-3/4 h-auto"
-                            />
-                        <motion.button 
-                        // initial={{ x: 100, opacity: 0 }}
-                        // animate={{ x: 0, opacity: 1 }}
-                        // // transition={{ duration: 1, delay: 1.2 }}
-                        // transition={{ duration: 1, delay: 1.2, ease: "easeOut" }}
+          {/* Name — char split */}
+          <CharHeading
+            text="Amrit Ranjan"
+            delay={200}
+            charDelay={45}
+            style={{
+              fontFamily: "'Unbounded', sans-serif",
+              fontSize: 'clamp(3rem, 7vw, 6rem)',
+              fontWeight: 900,
+              lineHeight: 0.9,
+              letterSpacing: '-0.04em',
+              marginBottom: '2rem',
+              display: 'block',
+            }}
+          />
 
-                        // old code for button
-                        //     onClick={() => setIsOpen(true)}
-                        //     // className="absolute bottom-4 bg-neutral-800 text-white px-4 py-2 rounded-lg shadow-md hover:bg-neutral-700"
-                        //     className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 shadow-lg"
-                        //     // className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 shadow-lg"
-                        // >
-                        //     View Resume
+          {/* Description */}
+          <p style={{
+            fontSize: '0.95rem',
+            lineHeight: 1.8,
+            color: 'var(--ink2)',
+            maxWidth: '28rem',
+            marginBottom: '2.5rem',
+          }}>
+            Building{' '}
+            <span style={{ color: 'var(--amber)', fontWeight: 600 }}>scalable backends</span>
+            , data pipelines, and APIs that power real products. 3+ years turning complex data
+            challenges into clean, reliable engineering.
+          </p>
 
-                        onClick={() => setIsOpen(true)}
-                        // className="mt-6 bg-gradient-to-r from-pink-400 to-purple-500 text-white font-semibold py-6 px-8 rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-600 flex items-center space-x-2"
-                        // className="mt-6 bg-gradient-to-r from-pink-400 to-purple-500 text-white font-semibold py-4 px-6 sm:py-6 sm:px-8 rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-600 flex items-center space-x-2"
-                        className="mt-6 bg-gradient-to-r from-pink-400 to-purple-500 text-white font-semibold py-3 px-5 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-600 flex items-center space-x-2"
-
-                        whileHover={{ scale: 1.05 }} // Scale effect on hover
-                        whileTap={{ scale: 0.95 }}   // Slight scale effect when clicked
-                    >
-                        <svg
-                        className="w-5 h-5 text-white"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M14.752 11.168l-3.91 3.91a1 1 0 01-1.415 0l-3.91-3.91m0 0a1 1 0 010-1.415l3.91-3.91a1 1 0 011.415 0l3.91 3.91m-3.91 3.91l3.91-3.91"
-                        />
-                        </svg>
-                        <span>View Resume</span>
-
-                        </motion.button>
-                    </motion.div>
-                </div>
-
-            </div>
+          {/* CTAs */}
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <HoverButton
+              onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+              primary
+            >
+              View Projects
+            </HoverButton>
+            <HoverButton
+              onClick={() => setResumeOpen(true)}
+            >
+              View Resume
+            </HoverButton>
+          </div>
         </div>
 
-            {/* {isOpen && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div className="bg-white rounded-lg overflow-hidden max-w-2xl w-full p-4 relative">
-                    <button 
-                        onClick={() => setIsOpen(false)}
-                        className="absolute top-2 right-2 text-black font-bold text-xl"
-                    >
-                        ×
-                    </button>
-                    <iframe 
-                        src={resume}
-                        className="w-full h-96"
-                        title="Resume"
-                    ></iframe>
-                    <div className="flex justify-end mt-4">
-                        <a 
-                            href={resume}
-                            download
-                            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-                        >
-                            Download
-                        </a>
-                    </div>
-                </div>
+        {/* RIGHT COLUMN */}
+        <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {/* Location badge */}
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            background: 'var(--teal-l)',
+            color: 'var(--teal-d)',
+            padding: '0.5rem 1rem',
+            fontFamily: "'Space Mono', monospace",
+            fontSize: '0.65rem',
+            letterSpacing: '0.1em',
+            width: 'fit-content',
+          }}>
+            📍 Bangalore, India
+          </div>
+
+          {/* Stat row */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+            <StatCard label="Experience" value="3+" sub="Years in production" />
+            <StatCard label="Projects" value="4" sub="Shipped & live" accentColor="var(--teal)" />
+          </div>
+
+          <StatCard
+            label="Current Role"
+            value="Project Engineer"
+            sub="Avo Automation · 2023 – Present"
+            accentColor="var(--coral)"
+          />
+
+          {/* Typewriter card */}
+          <div style={{
+            background: 'var(--paper)',
+            border: '1px solid var(--border)',
+            padding: '1.25rem 1.5rem',
+            position: 'relative',
+            overflow: 'hidden',
+          }}>
+            <div style={{
+              position: 'absolute', left: 0, top: 0, bottom: 0,
+              width: 3, background: 'var(--violet)',
+            }} />
+            <div style={{
+              fontFamily: "'Space Mono', monospace",
+              fontSize: '0.6rem',
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              color: 'var(--ink3)',
+              marginBottom: '0.4rem',
+            }}>
+              Specialisation
             </div>
-        )} */}
+            <div style={{
+              fontFamily: "'Space Mono', monospace",
+              fontSize: '0.9rem',
+              fontWeight: 700,
+              color: 'var(--amber)',
+              minHeight: '1.4rem',
+            }}>
+              {twText}
+              <span className="tw-cursor" />
+            </div>
+          </div>
+        </div>
+      </section>
 
-            {/* {isOpen && (
-            <motion.div 
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.4 }}
-                className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-0 z-50"
+      {/* Resume Modal */}
+      {resumeOpen && (
+        <div
+          style={{
+            position: 'fixed', inset: 0, zIndex: 500,
+            background: 'rgba(10,10,15,0.7)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            backdropFilter: 'blur(6px)',
+          }}
+          onClick={() => setResumeOpen(false)}
+        >
+          <div
+            style={{
+              background: 'var(--paper)',
+              padding: '1.5rem',
+              width: '90%', maxWidth: '900px',
+              position: 'relative',
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setResumeOpen(false)}
+              style={{
+                position: 'absolute', top: '1rem', right: '1rem',
+                background: 'none', border: 'none',
+                fontSize: '1.5rem', cursor: 'pointer',
+                color: 'var(--ink)',
+              }}
             >
-                <div className="bg-white p-8 rounded-xl shadow-lg w-11/12 max-w-2xl relative">
-                <button
-                    onClick={() => setIsOpen(false)}
-                    className="absolute top-4 right-4 text-black text-xl hover:text-red-500"
-                >
-                    &times;
-                </button>
-                <iframe
-                    src={resume}
-                    title="Resume"
-                    className="w-full h-[500px]"
-                ></iframe>
-                <div className="text-center mt-4">
-                    <a 
-                    href={resume} 
-                    download 
-                    className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                    >
-                    Download Resume
-                    </a>
-                </div>
-                </div>
-            </motion.div>
-        )} */}
+              ×
+            </button>
+            <iframe
+              src={resume}
+              title="Amrit Ranjan Resume"
+              style={{ width: '100%', height: '600px', border: 'none' }}
+            />
+            <div style={{ textAlign: 'right', marginTop: '1rem' }}>
+              <a
+                href={resume}
+                download
+                style={{
+                  display: 'inline-block',
+                  background: 'var(--ink)',
+                  color: 'var(--paper)',
+                  padding: '0.6rem 1.5rem',
+                  fontFamily: "'Space Mono', monospace",
+                  fontSize: '0.7rem',
+                  letterSpacing: '0.1em',
+                  textDecoration: 'none',
+                }}
+              >
+                Download PDF
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
 
-            {isOpen && (
-                        <motion.div 
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="fixed inset-0 z-50 flex items-center justify-center"
-                            >
-                            {/* Background blur */}
-                            <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+/* ── Small reusable button with hover fill ── */
+export function HoverButton({ children, onClick, primary = false }) {
+  const [hovered, setHovered] = useState(false)
 
-                            {/* Popup Content */}
-                                <motion.div
-                                    initial={{ scale: 0.8, opacity: 0 }}
-                                    animate={{ scale: 1, opacity: 1 }}
-                                    exit={{ scale: 0.8, opacity: 0 }}
-                                    transition={{ duration: 0.4 }}
-                                    // className="relative z-10 bg-white p-4 rounded-lg shadow-lg w-full max-w-4xl" // <-- added width settings
-                                    className="relative z-10 bg-white p-4 rounded-lg shadow-lg w-full max-w-4xl" // No border here
-                                    >
-                                    <button
-                                        onClick={() => setIsOpen(false)}
-                                        className="absolute top-2 right-4 text-black text-3xl hover:text-red-500"
-                                    >
-                                        &times;
-                                    </button>
-                                    <iframe
-                                        src={resume}
-                                        title="Resume"
-                                        // className="w-full h-[600px] rounded-lg border-0" // <-- fixed borders and size
-                                        className="w-full h-[600px] rounded-lg" // Removed border class here
-                                    ></iframe>
-                                </motion.div>
-                            </motion.div>
+  const base = {
+    border: primary ? 'none' : '1.5px solid var(--ink)',
+    background: primary
+      ? hovered ? 'var(--amber)' : 'var(--ink)'
+      : hovered ? 'transparent' : 'transparent',
+    color: primary
+      ? '#fff'
+      : hovered ? 'var(--amber)' : 'var(--ink)',
+    borderColor: !primary && hovered ? 'var(--amber)' : !primary ? 'var(--ink)' : undefined,
+    padding: '0.85rem 2rem',
+    fontFamily: "'Space Mono', monospace",
+    fontSize: '0.7rem',
+    letterSpacing: '0.08em',
+    cursor: 'pointer',
+    transition: 'all 0.25s',
+  }
 
-                        )}
-    </div>
+  return (
+    <button
+      style={base}
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {children}
+    </button>
   )
 }
 

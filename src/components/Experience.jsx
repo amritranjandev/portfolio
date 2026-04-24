@@ -1,51 +1,173 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { WordHeading } from './WordHeading'
+import { useReveal } from '../hooks/useReveal'
 import { EXPERIENCES } from '../constants'
-import { motion } from "motion/react"
 
+const ExpItem = ({ experience, index }) => {
+  const [hovered, setHovered] = useState(false)
+  const ref = useReveal()
 
-function Experience() {
   return (
-    <div className="border-b border-neutral-900 pb-4">
-        <motion.h2 
-        whileInView={{ opacity: 1, y: 0 }}
-        initial={{ opacity: 0, y: -100 }}
-        transition={{ duration: 0.5 }}
-        className="my-20 text-center text-4xl">Experience</motion.h2>
-        <div>
-            {EXPERIENCES.map((experience, index) => (
-                <div key={index} className="mb-8 flex flex-wrap lg:justify-center">
-                    <motion.div 
-                    whileInView={{ opacity: 1, x: 0 }}
-                    initial={{ opacity: 0, x: -100 }}
-                    transition={{ duration: 1 }}
-                    className="w-full lg:w-1/4">
-                        <p className="mb-2 text-sm text-neutral-400">{experience.year}</p>
-                    </motion.div>
-                    <motion.div 
-                    whileInView={{ opacity: 1, x: 0 }}
-                    initial={{ opacity: 0, x: 100 }}
-                    transition={{ duration: 1 }}
-                    className="w-full max-w-xl lg:w-3/4">
-                        <h6 className="mb-2 font-semibold">
-                            {experience.role} - 
-                            <span className="text-sm text-purple-100">
-                                {experience.company}
-                            </span>
-                        </h6>
-                        <p className="mb-4 text-neutral-400">
-                            {experience.description}
-                        </p>
-                        {experience.technologies.map((tech, index) => (
-                            // <span key={index} className="mr-2 mb-2 inline-block rounded-full bg-neutral-800 px-3 py-1 text-sm font-semibold text-neutral-300">
-                            <span key={index} className="mr-2 mt-4 rounded bg-neutral-900 px-2 py-1 text-sm font-medium text-purple-800">
-                                {tech}
-                            </span>
-                        ))}
-                    </motion.div>
-                </div>
-            ))}
+    <div
+      ref={ref}
+      className="reveal"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '10rem 1fr auto',
+        gap: '2rem',
+        padding: hovered ? '3rem 1.5rem' : '3rem 0',
+        margin: hovered ? '0 -1.5rem' : '0',
+        borderTop: '1px solid var(--border)',
+        position: 'relative',
+        transition: 'all 0.3s ease',
+        background: hovered ? 'var(--paper2)' : 'transparent',
+        alignItems: 'start',
+      }}
+    >
+      {/* Animated bottom line */}
+      <div style={{
+        position: 'absolute',
+        left: 0, bottom: 0,
+        height: '1px',
+        width: hovered ? '100%' : '0%',
+        background: 'var(--amber)',
+        transition: 'width 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+      }} />
+
+      {/* Year */}
+      <div style={{
+        fontFamily: "'Space Mono', monospace",
+        fontSize: '0.7rem',
+        color: 'var(--ink3)',
+        lineHeight: 1.6,
+        paddingTop: '0.15rem',
+      }}>
+        {experience.year.replace(' - ', '\n—\n')}
+      </div>
+
+      {/* Body */}
+      <div>
+        <div style={{
+          fontFamily: "'Unbounded', sans-serif",
+          fontSize: '1.1rem',
+          fontWeight: 700,
+          letterSpacing: '-0.02em',
+          marginBottom: '0.25rem',
+          color: 'var(--ink)',
+        }}>
+          {experience.role}
         </div>
+        <div style={{
+          fontFamily: "'Space Mono', monospace",
+          fontSize: '0.65rem',
+          letterSpacing: '0.1em',
+          color: 'var(--amber)',
+          marginBottom: '1rem',
+        }}>
+          {experience.company}
+        </div>
+        <p style={{
+          fontSize: '0.82rem',
+          lineHeight: 1.8,
+          color: 'var(--ink2)',
+          maxWidth: '44rem',
+          marginBottom: '1.25rem',
+        }}>
+          {experience.description}
+        </p>
+        {/* Tech tags */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+          {experience.technologies.map((tech) => (
+            <span
+              key={tech}
+              style={{
+                fontFamily: "'Space Mono', monospace",
+                fontSize: '0.55rem',
+                letterSpacing: '0.08em',
+                padding: '0.3rem 0.65rem',
+                border: '1px solid var(--border)',
+                color: 'var(--ink3)',
+                background: 'var(--paper)',
+                transition: 'all 0.2s',
+                cursor: 'default',
+              }}
+              onMouseEnter={e => {
+                e.target.style.background = 'var(--ink)'
+                e.target.style.color = 'var(--paper)'
+                e.target.style.borderColor = 'var(--ink)'
+              }}
+              onMouseLeave={e => {
+                e.target.style.background = 'var(--paper)'
+                e.target.style.color = 'var(--ink3)'
+                e.target.style.borderColor = 'var(--border)'
+              }}
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Large index number */}
+      <div style={{
+        fontFamily: "'Unbounded', sans-serif",
+        fontSize: '4rem',
+        fontWeight: 900,
+        color: 'var(--border)',
+        lineHeight: 1,
+        alignSelf: 'center',
+        userSelect: 'none',
+        transition: 'color 0.3s',
+        ...(hovered ? { color: 'var(--amber-l)' } : {}),
+      }}>
+        {String(index + 1).padStart(2, '0')}
+      </div>
     </div>
+  )
+}
+
+const Experience = () => {
+  const headRef = useReveal()
+
+  return (
+    <section
+      id="experience"
+      style={{ padding: '8rem 3rem', borderBottom: '1px solid var(--border)' }}
+    >
+      <div ref={headRef} className="reveal">
+        <div style={{
+          fontFamily: "'Space Mono', monospace",
+          fontSize: '0.65rem',
+          letterSpacing: '0.2em',
+          textTransform: 'uppercase',
+          color: 'var(--ink3)',
+          marginBottom: '1rem',
+        }}>
+          03 / Experience
+        </div>
+        <WordHeading
+          text="Where I've worked"
+          style={{
+            fontFamily: "'Unbounded', sans-serif",
+            fontSize: 'clamp(2rem, 4vw, 3.5rem)',
+            fontWeight: 900,
+            lineHeight: 0.9,
+            letterSpacing: '-0.04em',
+            display: 'block',
+          }}
+        />
+      </div>
+
+      <div style={{ marginTop: '4rem' }}>
+        {EXPERIENCES.map((exp, i) => (
+          <ExpItem key={i} experience={exp} index={i} />
+        ))}
+        {/* Closing border */}
+        <div style={{ borderTop: '1px solid var(--border)' }} />
+      </div>
+    </section>
   )
 }
 
