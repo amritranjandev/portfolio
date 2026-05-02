@@ -1,82 +1,48 @@
 import React from 'react'
-import { RiReactjsLine } from 'react-icons/ri'
-import { RiJavascriptLine } from 'react-icons/ri'
-import { FaNodeJs } from 'react-icons/fa'
-import { SiMongodb, SiPython, SiPandas } from 'react-icons/si'
-import { BiLogoPostgresql } from 'react-icons/bi'
-import { SiMysql } from "react-icons/si";
-import { BiLogoGithub } from 'react-icons/bi'  // For GitHub
-import { FaGitAlt } from "react-icons/fa"; // For Git
-import { DiDocker } from 'react-icons/di'      // For Docker
-import { SiKubernetes } from 'react-icons/si'   // For Kubernetes
-import { VscAzure } from "react-icons/vsc";
-import { DiSpark } from "react-icons/di";
-import { SiFlask } from "react-icons/si";
-import { SiApachecassandra } from "react-icons/si";
-import { FaNode } from "react-icons/fa";
-import { IoLogoJavascript } from "react-icons/io5";
+import { motion } from 'motion/react'
 
+const techs = [
+  { name:'Python', icon:'🐍', sub:'Primary language', bar:'sm-gold', w:'92%', bg:'rgba(232,160,32,0.1)' },
+  { name:'Flask', icon:'Fl', sub:'Web framework', bar:'sm-gold', w:'88%', bg:'rgba(232,160,32,0.08)' },
+  { name:'Pandas', icon:'Pd', sub:'Data manipulation', bar:'sm-teal', w:'90%', bg:'rgba(13,148,136,0.1)' },
+  { name:'PySpark', icon:'✦', sub:'Big data processing', bar:'sm-ember', w:'78%', bg:'rgba(194,65,12,0.1)' },
+  { name:'Node.js', icon:'⬡', sub:'Learning · Backend', bar:'sm-teal', w:'60%', bg:'rgba(20,184,166,0.1)' },
+  { name:'JavaScript', icon:'JS', sub:'Scripting', bar:'sm-gold', w:'65%', bg:'rgba(232,160,32,0.08)' },
+]
+const infra = [
+  { name:'MongoDB', icon:'🍃', sub:'NoSQL database', bar:'sm-teal', w:'85%', bg:'rgba(13,148,136,0.1)' },
+  { name:'MySQL', icon:'🗃', sub:'Relational DB', bar:'sm-gold', w:'88%', bg:'rgba(232,160,32,0.08)' },
+  { name:'Cassandra', icon:'◈', sub:'Distributed DB', bar:'sm-teal', w:'70%', bg:'rgba(13,148,136,0.08)' },
+  { name:'Docker', icon:'🐳', sub:'Containerization', bar:'sm-teal', w:'80%', bg:'rgba(59,130,246,0.1)' },
+  { name:'Kubernetes', icon:'☸', sub:'Orchestration', bar:'sm-ember', w:'65%', bg:'rgba(59,130,246,0.08)' },
+  { name:'Azure', icon:'☁', sub:'Cloud platform', bar:'sm-teal', w:'72%', bg:'rgba(59,130,246,0.08)' },
+]
 
-import { motion } from "motion/react"
-
-const iconVariants = (duration) => ({
-  initial: { y: -10 },
-  animate: {
-      y: [10, -10],
-      transition: {
-          duration: duration,
-          repeat: Infinity,
-          repeatType: "reverse",
-          ease: "linear",
-      },
-  }
-})
-
-const Technologies = () => {
-// Define all unique technologies in a single array
-const technologyIcons = [
-  { name: "Python", icon: <SiPython className="text-7xl text-blue-500" />, duration: 2.0 },
-  { name: "Pandas", icon: <SiPandas className="text-7xl text-green-600" />, duration: 2.2 },
-  { name: "MySQL", icon: <SiMysql className="text-7xl text-blue-500" />, duration: 2.4 },
-  { name: "PySpark", icon: <DiSpark className="text-7xl text-cyan-400" />, duration: 2.6 },
-  { name: "Flask", icon: <SiFlask className="text-7xl text-gray-600" />, duration: 2.8 },
-  { name: "MongoDB", icon: <SiMongodb className="text-7xl text-green-500" />, duration: 2.2 },
-  { name: "Docker", icon: <DiDocker className="text-7xl text-blue-700" />, duration: 2.4 },
-  { name: "Kubernetes", icon: <SiKubernetes className="text-7xl text-blue-600" />, duration: 2.6 },
-  { name: "Git", icon: <FaGitAlt className="text-7xl text-black" />, duration: 2.8 },
-  { name: "GitHub", icon: <BiLogoGithub className="text-7xl text-black" />, duration: 2.0 },
-  { name: "Azure", icon: <VscAzure className="text-7xl text-blue-500" />, duration: 2.2 },
-  { name: "Cassandra", icon: <SiApachecassandra className="text-7xl text-cyan-400" />, duration: 2.4 },
-  { name: "Node.js", icon: <FaNode className="text-7xl text-green-500" />, duration: 2.6 },
-  { name: "JavaScript", icon: <IoLogoJavascript className="text-7xl text-yellow-400" />, duration: 2.8 },
-];
-
-return (
-  <div className="border-b border-neutral-800 pb-24">
-      <motion.h2 
-      whileInView={{ opacity: 1, y: 0 }}
-      initial={{ opacity: 0, y: -100 }}
-      transition={{ duration: 1.5 }}
-      className="my-20 text-center text-4xl">Technologies</motion.h2>
-      <motion.div 
-      whileInView={{ opacity: 1, x: 0 }}
-      initial={{ opacity: 0, x: -100 }}
-      transition={{ duration: 1.5 }}
-      className="flex flex-wrap items-center justify-center gap-4">
-          {technologyIcons.map((tech, index) => (
-              <motion.div 
-                  key={index}
-                  variants={iconVariants(tech.duration)}
-                  initial="initial"
-                  animate="animate"
-                  className="rounded-2xl border-4 border-neutral-800 p-4"
-              >
-                  {tech.icon}
-              </motion.div>
-          ))}
-      </motion.div>
-  </div>
+const SkillRow = ({ s, i }) => (
+  <motion.div className="skill-row" initial={{opacity:0,y:16}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:i*0.05,duration:0.5}}>
+    <div className="skill-icon-box" style={{background:s.bg}}>{s.icon}</div>
+    <div className="skill-info"><div className="skill-name">{s.name}</div><div className="skill-sub">{s.sub}</div></div>
+    <div className="skill-meter"><div className="skill-meter-bg"><div className={s.bar} style={{width:s.w}} /></div></div>
+  </motion.div>
 )
-}
 
+const Technologies = () => (
+  <section id="skills" className="section-base">
+    <div className="section-header">
+      <span className="section-number">02</span>
+      <h2 className="section-title">Technologies</h2>
+      <span className="section-rule" />
+    </div>
+    <div className="skills-layout">
+      <div>
+        <div className="skill-col-title">Core Stack</div>
+        <div className="skill-list">{techs.map((s,i) => <SkillRow key={s.name} s={s} i={i} />)}</div>
+      </div>
+      <div>
+        <div className="skill-col-title">Infra &amp; Data</div>
+        <div className="skill-list">{infra.map((s,i) => <SkillRow key={s.name} s={s} i={i+6} />)}</div>
+      </div>
+    </div>
+  </section>
+)
 export default Technologies

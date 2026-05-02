@@ -1,37 +1,30 @@
-import React from 'react'
-// import logo from '../assets/kevinRushLogo.png'
-import logo from '../assets/Ar.png'
-import { FaLinkedin } from 'react-icons/fa'
-import { FaGithub } from 'react-icons/fa'
-// import { FaSquareXTwitter } from 'react-icons/fa' 
-import { FaInstagram } from 'react-icons/fa'
+import React, { useState, useEffect } from 'react'
+import { motion } from 'motion/react'
+import { FaLinkedin, FaGithub } from 'react-icons/fa'
 import { FaMedium } from 'react-icons/fa'
 
 const Navbar = () => {
+  const [scrolled, setScrolled] = useState(false)
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', fn)
+    return () => window.removeEventListener('scroll', fn)
+  }, [])
   return (
-    <nav className="flex items-center justify-between py-6">
-        <div className="flex flex-shrink-0 items-center">
-            {/* <img className="mx-2 w-10" src={logo} alt="logo" /> */}
-            <span className="mx-2 w-10 font-bold text-xl">Ar</span>
-
+    <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
+      <div className="nav-logo">
+        <div className="logo-mark"><span className="logo-ar">Ar</span></div>
+        <span className="logo-name">Amrit Ranjan</span>
+      </div>
+      <div className="nav-right">
+        <div className="nav-links">
+          {['About','Skills','Experience','Projects'].map(s => (
+            <a key={s} href={`#${s.toLowerCase()}`} className="nav-link">{s}</a>
+          ))}
         </div>
-        <div className="m-8 flex items-center justify-center gap-4 text-2xl">
-            <a href="https://www.linkedin.com/in/amrit-ranjan-professional/" target="_blank" rel="noopener noreferrer">
-                <FaLinkedin />
-            </a>
-            {/* <FaGithub/> */}
-            {/* <FaSquareXTwitter/>  */}
-            {/* <FaInstagram/> */}
-            {/* <FaMedium/> */}
-            <a href="https://medium.com/@amritranjanamc" target="_blank" rel="noopener noreferrer">
-                <FaMedium />
-            </a>
-            <a href="https://github.com/amritranjandev" target="_blank" rel="noopener noreferrer">
-                <FaGithub />
-            </a>
-        </div>
+        <a href="mailto:amritranjanamc@gmail.com" className="nav-cta">Hire Me</a>
+      </div>
     </nav>
   )
 }
-
 export default Navbar

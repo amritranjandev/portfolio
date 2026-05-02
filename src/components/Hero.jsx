@@ -1,224 +1,78 @@
 import React, { useState } from 'react'
-import {HERO_CONTENT} from '../constants/index.js'
-import profilePic from '../assets/kevinRushProfile.png'
-import tech from '../assets/undraw_ai_agent_pdkp.svg'
+import { motion } from 'motion/react'
+import { HERO_CONTENT } from '../constants/index.js'
 import resume from '../assets/amrit_ranjan_res.pdf'
-import { motion } from "motion/react"
-// import { delay } from 'motion'
-
-  
-
-const container = (delay) => ({
-    hidden: { x: -100, opacity: 0 },
-    visible: {
-        x: 0,
-        opacity: 1,
-        transition: {
-            duration: 0.5,
-            delay: delay,
-        }
-    },
-})
 
 const Hero = () => {
-    const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false)
   return (
-    <div className="border-b border-neutral-900 pb-4 lg:mb-35">
-        <div className="flex flex-wrap">
-            <div className='w-full lg:w-1/2'>
-                <div className="flex flex-col items-center lg:items-start">
-                    <motion.h1 
-                    variants={container(0)}
-                    initial="hidden"
-                    animate="visible"
-                    className="pb-16 text-6xl font-thin tracking-tight lg:mt-16 lg:text-8xl">
-                    Amrit Ranjan
-                    </motion.h1>
-                    <motion.span 
-                    variants={container(0.5)}
-                    initial="hidden"
-                    animate="visible"
-                    className="bg-gradient-to-r from-pink-300 via-slate-500
-                    to-purple-500 bg-clip-text text-3xl tracking-tight text-transparent">
-                        Python Developer
-                    </motion.span>
-                    <motion.p 
-                    variants={container(1)}
-                    initial="hidden"
-                    animate="visible"
-                    className="my-2 max-w-xl py-6 font-light tracking-tighter">
-                        {HERO_CONTENT}
-                    </motion.p>
-                </div>
-            </div>
-            <div className='w-full lg:w-1/2 lg:p-8'>
-
-                {/* <div className='flex justify-center'>
-                    <motion.img 
-                    initial={{ x: 100, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ duration: 1, delay: 1.2 }}
-                    // src={profilePic} alt="Kevin Rush" 
-                    src={tech} 
-                    />
-                </div> */}
-
-                {/* <div className='relative flex justify-center'> */}
-                <div className="flex flex-col items-center">
-                    <motion.div 
-                            initial={{ x: 100, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            transition={{ duration: 1, delay: 1.2 }}
-                            className="flex flex-col items-center"
-                        >
-                            <img
-                                src={tech}
-                                alt="Backend Developer Illustration"
-                                className="rounded-xl w-3/4 h-auto"
-                            />
-                        <motion.button 
-                        // initial={{ x: 100, opacity: 0 }}
-                        // animate={{ x: 0, opacity: 1 }}
-                        // // transition={{ duration: 1, delay: 1.2 }}
-                        // transition={{ duration: 1, delay: 1.2, ease: "easeOut" }}
-
-                        // old code for button
-                        //     onClick={() => setIsOpen(true)}
-                        //     // className="absolute bottom-4 bg-neutral-800 text-white px-4 py-2 rounded-lg shadow-md hover:bg-neutral-700"
-                        //     className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 shadow-lg"
-                        //     // className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 shadow-lg"
-                        // >
-                        //     View Resume
-
-                        onClick={() => setIsOpen(true)}
-                        // className="mt-6 bg-gradient-to-r from-pink-400 to-purple-500 text-white font-semibold py-6 px-8 rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-600 flex items-center space-x-2"
-                        // className="mt-6 bg-gradient-to-r from-pink-400 to-purple-500 text-white font-semibold py-4 px-6 sm:py-6 sm:px-8 rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-600 flex items-center space-x-2"
-                        className="mt-6 bg-gradient-to-r from-pink-400 to-purple-500 text-white font-semibold py-3 px-5 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-600 flex items-center space-x-2"
-
-                        whileHover={{ scale: 1.05 }} // Scale effect on hover
-                        whileTap={{ scale: 0.95 }}   // Slight scale effect when clicked
-                    >
-                        <svg
-                        className="w-5 h-5 text-white"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M14.752 11.168l-3.91 3.91a1 1 0 01-1.415 0l-3.91-3.91m0 0a1 1 0 010-1.415l3.91-3.91a1 1 0 011.415 0l3.91 3.91m-3.91 3.91l3.91-3.91"
-                        />
-                        </svg>
-                        <span>View Resume</span>
-
-                        </motion.button>
-                    </motion.div>
-                </div>
-
-            </div>
+    <div className="hero-section">
+      <motion.div initial={{opacity:0,y:40}} animate={{opacity:1,y:0}} transition={{duration:0.8,ease:[0.16,1,0.3,1]}}>
+        <div className="hero-eyebrow">
+          <span className="eyebrow-line" />
+          <span className="eyebrow-text">Available for opportunities</span>
         </div>
+        <h1 className="hero-name">Amrit<em>Ranjan</em></h1>
+        <div className="hero-role">Python Developer &amp; Backend Engineer</div>
+        <p className="hero-desc">{HERO_CONTENT}</p>
+        <div className="hero-btns">
+          <motion.button className="btn-primary" onClick={() => setOpen(true)} whileHover={{scale:1.03}} whileTap={{scale:0.97}}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            View Resume
+          </motion.button>
+          <a href="mailto:amritranjanamc@gmail.com" className="btn-ghost">Let's Talk →</a>
+        </div>
+        <div className="hero-stats">
+          {[['3+','Years Exp.'],['14','Technologies'],['4','Projects'],['2','Companies']].map(([n,l]) => (
+            <div key={l}><div className="stat-number">{n}</div><div className="stat-label">{l}</div></div>
+          ))}
+        </div>
+      </motion.div>
 
-            {/* {isOpen && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div className="bg-white rounded-lg overflow-hidden max-w-2xl w-full p-4 relative">
-                    <button 
-                        onClick={() => setIsOpen(false)}
-                        className="absolute top-2 right-2 text-black font-bold text-xl"
-                    >
-                        ×
-                    </button>
-                    <iframe 
-                        src={resume}
-                        className="w-full h-96"
-                        title="Resume"
-                    ></iframe>
-                    <div className="flex justify-end mt-4">
-                        <a 
-                            href={resume}
-                            download
-                            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-                        >
-                            Download
-                        </a>
-                    </div>
-                </div>
-            </div>
-        )} */}
+      <motion.div initial={{opacity:0,x:40}} animate={{opacity:1,x:0}} transition={{duration:0.9,delay:0.2,ease:[0.16,1,0.3,1]}}>
+        <div className="terminal">
+          <div className="t-bar">
+            <span className="t-dot t-dot-r"/><span className="t-dot t-dot-y"/><span className="t-dot t-dot-g"/>
+            <span className="t-file">amrit_ranjan.py</span>
+          </div>
+          <div className="t-body">
+            <div><span className="t-comment"># Backend Engineer Profile</span></div>
+            <div><br/></div>
+            <div><span className="t-key">class</span> <span style={{color:'var(--gold)'}}>Engineer</span><span className="t-op">:</span></div>
+            <div>&nbsp;&nbsp;<span className="t-key">name</span> <span className="t-op">=</span> <span className="t-str">"Amrit Ranjan"</span></div>
+            <div>&nbsp;&nbsp;<span className="t-key">role</span> <span className="t-op">=</span> <span className="t-str">"Python Developer"</span></div>
+            <div>&nbsp;&nbsp;<span className="t-key">location</span> <span className="t-op">=</span> <span className="t-str">"Bangalore, IN"</span></div>
+            <div>&nbsp;&nbsp;<span className="t-key">experience</span> <span className="t-op">=</span> <span className="t-num">3</span><span className="t-op"> # years</span></div>
+            <div><br/></div>
+            <div>&nbsp;&nbsp;<span className="t-key">stack</span> <span className="t-op">= [</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span className="t-str">"Python"</span><span className="t-op">, </span><span className="t-str">"Flask"</span><span className="t-op">,</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span className="t-str">"PySpark"</span><span className="t-op">, </span><span className="t-str">"Docker"</span><span className="t-op">,</span></div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;<span className="t-str">"Node.js"</span><span className="t-op">, </span><span className="t-str">"Azure"</span></div>
+            <div>&nbsp;&nbsp;<span className="t-op">]</span></div>
+            <div><br/></div>
+            <div>&nbsp;&nbsp;<span className="t-key">status</span> <span className="t-op">=</span> <span className="t-str">"open_to_work"</span> <span className="t-cursor"/></div>
+          </div>
+          <div className="skill-bars-wrap">
+            {[['Python','sb-gold','92%'],['Databases','sb-teal','85%'],['APIs','sb-gold','88%'],['DevOps','sb-ember','72%']].map(([l,c,w]) => (
+              <div className="sb-row" key={l}>
+                <span className="sb-label">{l}</span>
+                <div className="sb-track"><div className={c} style={{width:w}} /></div>
+                <span className="sb-pct">{w}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
 
-            {/* {isOpen && (
-            <motion.div 
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.4 }}
-                className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-0 z-50"
-            >
-                <div className="bg-white p-8 rounded-xl shadow-lg w-11/12 max-w-2xl relative">
-                <button
-                    onClick={() => setIsOpen(false)}
-                    className="absolute top-4 right-4 text-black text-xl hover:text-red-500"
-                >
-                    &times;
-                </button>
-                <iframe
-                    src={resume}
-                    title="Resume"
-                    className="w-full h-[500px]"
-                ></iframe>
-                <div className="text-center mt-4">
-                    <a 
-                    href={resume} 
-                    download 
-                    className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                    >
-                    Download Resume
-                    </a>
-                </div>
-                </div>
-            </motion.div>
-        )} */}
-
-            {isOpen && (
-                        <motion.div 
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="fixed inset-0 z-50 flex items-center justify-center"
-                            >
-                            {/* Background blur */}
-                            <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
-
-                            {/* Popup Content */}
-                                <motion.div
-                                    initial={{ scale: 0.8, opacity: 0 }}
-                                    animate={{ scale: 1, opacity: 1 }}
-                                    exit={{ scale: 0.8, opacity: 0 }}
-                                    transition={{ duration: 0.4 }}
-                                    // className="relative z-10 bg-white p-4 rounded-lg shadow-lg w-full max-w-4xl" // <-- added width settings
-                                    className="relative z-10 bg-white p-4 rounded-lg shadow-lg w-full max-w-4xl" // No border here
-                                    >
-                                    <button
-                                        onClick={() => setIsOpen(false)}
-                                        className="absolute top-2 right-4 text-black text-3xl hover:text-red-500"
-                                    >
-                                        &times;
-                                    </button>
-                                    <iframe
-                                        src={resume}
-                                        title="Resume"
-                                        // className="w-full h-[600px] rounded-lg border-0" // <-- fixed borders and size
-                                        className="w-full h-[600px] rounded-lg" // Removed border class here
-                                    ></iframe>
-                                </motion.div>
-                            </motion.div>
-
-                        )}
+      {open && (
+        <div style={{position:'fixed',inset:0,background:'rgba(6,8,10,0.9)',backdropFilter:'blur(12px)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center',padding:'2rem'}} onClick={() => setOpen(false)}>
+          <div style={{background:'var(--ink2)',border:'1px solid var(--border2)',borderRadius:16,padding:'1.5rem',width:'100%',maxWidth:800,position:'relative'}} onClick={e => e.stopPropagation()}>
+            <button onClick={() => setOpen(false)} style={{position:'absolute',top:'1rem',right:'1rem',width:32,height:32,borderRadius:8,border:'1px solid var(--border2)',background:'var(--ink)',color:'var(--bone2)',cursor:'pointer',fontSize:'1rem',display:'flex',alignItems:'center',justifyContent:'center'}}>✕</button>
+            <iframe src={resume} title="Resume" style={{width:'100%',height:580,border:'none',borderRadius:8}} />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
-
 export default Hero
