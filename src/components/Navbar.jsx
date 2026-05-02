@@ -1,36 +1,45 @@
-import React from 'react'
-// import logo from '../assets/kevinRushLogo.png'
-import logo from '../assets/Ar.png'
-import { FaLinkedin } from 'react-icons/fa'
-import { FaGithub } from 'react-icons/fa'
-// import { FaSquareXTwitter } from 'react-icons/fa' 
-import { FaInstagram } from 'react-icons/fa'
+import React, { useEffect, useState } from 'react'
+import { motion } from "motion/react"
+import { FaLinkedin, FaGithub } from 'react-icons/fa'
 import { FaMedium } from 'react-icons/fa'
 
 const Navbar = () => {
-  return (
-    <nav className="flex items-center justify-between py-6">
-        <div className="flex flex-shrink-0 items-center">
-            {/* <img className="mx-2 w-10" src={logo} alt="logo" /> */}
-            <span className="mx-2 w-10 font-bold text-xl">Ar</span>
+  const [scrolled, setScrolled] = useState(false)
 
-        </div>
-        <div className="m-8 flex items-center justify-center gap-4 text-2xl">
-            <a href="https://www.linkedin.com/in/amrit-ranjan-professional/" target="_blank" rel="noopener noreferrer">
-                <FaLinkedin />
-            </a>
-            {/* <FaGithub/> */}
-            {/* <FaSquareXTwitter/>  */}
-            {/* <FaInstagram/> */}
-            {/* <FaMedium/> */}
-            <a href="https://medium.com/@amritranjanamc" target="_blank" rel="noopener noreferrer">
-                <FaMedium />
-            </a>
-            <a href="https://github.com/amritranjandev" target="_blank" rel="noopener noreferrer">
-                <FaGithub />
-            </a>
-        </div>
-    </nav>
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  return (
+    <motion.nav
+      className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <div className="nav-logo">
+        <span className="logo-ar">Ar</span>
+        <span className="logo-dot" />
+      </div>
+      <div className="nav-links">
+        {['About', 'Skills', 'Experience', 'Projects'].map((item) => (
+          <a key={item} href={`#${item.toLowerCase()}`} className="nav-link">{item}</a>
+        ))}
+      </div>
+      <div className="nav-social">
+        <a href="https://www.linkedin.com/in/amrit-ranjan-professional/" target="_blank" rel="noopener noreferrer" className="social-icon">
+          <FaLinkedin />
+        </a>
+        <a href="https://medium.com/@amritranjanamc" target="_blank" rel="noopener noreferrer" className="social-icon">
+          <FaMedium />
+        </a>
+        <a href="https://github.com/amritranjandev" target="_blank" rel="noopener noreferrer" className="social-icon">
+          <FaGithub />
+        </a>
+      </div>
+    </motion.nav>
   )
 }
 

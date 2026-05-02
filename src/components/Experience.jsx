@@ -1,51 +1,84 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { motion, AnimatePresence } from "motion/react"
 import { EXPERIENCES } from '../constants'
-import { motion } from "motion/react"
 
+const Experience = () => {
+  const [active, setActive] = useState(0)
 
-function Experience() {
   return (
-    <div className="border-b border-neutral-900 pb-4">
-        <motion.h2 
-        whileInView={{ opacity: 1, y: 0 }}
-        initial={{ opacity: 0, y: -100 }}
-        transition={{ duration: 0.5 }}
-        className="my-20 text-center text-4xl">Experience</motion.h2>
-        <div>
-            {EXPERIENCES.map((experience, index) => (
-                <div key={index} className="mb-8 flex flex-wrap lg:justify-center">
-                    <motion.div 
-                    whileInView={{ opacity: 1, x: 0 }}
-                    initial={{ opacity: 0, x: -100 }}
-                    transition={{ duration: 1 }}
-                    className="w-full lg:w-1/4">
-                        <p className="mb-2 text-sm text-neutral-400">{experience.year}</p>
-                    </motion.div>
-                    <motion.div 
-                    whileInView={{ opacity: 1, x: 0 }}
-                    initial={{ opacity: 0, x: 100 }}
-                    transition={{ duration: 1 }}
-                    className="w-full max-w-xl lg:w-3/4">
-                        <h6 className="mb-2 font-semibold">
-                            {experience.role} - 
-                            <span className="text-sm text-purple-100">
-                                {experience.company}
-                            </span>
-                        </h6>
-                        <p className="mb-4 text-neutral-400">
-                            {experience.description}
-                        </p>
-                        {experience.technologies.map((tech, index) => (
-                            // <span key={index} className="mr-2 mb-2 inline-block rounded-full bg-neutral-800 px-3 py-1 text-sm font-semibold text-neutral-300">
-                            <span key={index} className="mr-2 mt-4 rounded bg-neutral-900 px-2 py-1 text-sm font-medium text-purple-800">
-                                {tech}
-                            </span>
-                        ))}
-                    </motion.div>
-                </div>
+    <section id="experience" className="section-base">
+      <div className="container mx-auto px-8">
+        <motion.div
+          className="section-header"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8 }}
+        >
+          <span className="section-number">03</span>
+          <h2 className="section-title">Experience</h2>
+        </motion.div>
+
+        <div className="exp-layout">
+          {/* Timeline tabs */}
+          <motion.div
+            className="exp-tabs"
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            {EXPERIENCES.map((exp, i) => (
+              <button
+                key={i}
+                className={`exp-tab ${active === i ? 'exp-tab-active' : ''}`}
+                onClick={() => setActive(i)}
+              >
+                <div className="exp-tab-year">{exp.year}</div>
+                <div className="exp-tab-company">{exp.company.trim()}</div>
+                {active === i && (
+                  <motion.div className="exp-tab-indicator" layoutId="exp-indicator" />
+                )}
+              </button>
             ))}
+          </motion.div>
+
+          {/* Content panel */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={active}
+              className="exp-panel glass-card"
+              initial={{ opacity: 0, x: 40, y: 10 }}
+              animate={{ opacity: 1, x: 0, y: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className="exp-panel-header">
+                <div>
+                  <h3 className="exp-role">{EXPERIENCES[active].role}</h3>
+                  <span className="exp-company-name">{EXPERIENCES[active].company.trim()}</span>
+                </div>
+                <div className="exp-badge">{EXPERIENCES[active].year}</div>
+              </div>
+              <p className="exp-description">{EXPERIENCES[active].description}</p>
+              <div className="exp-tech-list">
+                {EXPERIENCES[active].technologies.map((tech, j) => (
+                  <motion.span
+                    key={j}
+                    className="tech-pill"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: j * 0.05 }}
+                  >
+                    {tech}
+                  </motion.span>
+                ))}
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
-    </div>
+      </div>
+    </section>
   )
 }
 

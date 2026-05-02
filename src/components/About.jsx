@@ -1,59 +1,83 @@
 import React from 'react'
-import aboutImg from '../assets/about.jpg'
-import server from '../assets/server_b.mp4'
-import {ABOUT_TEXT} from '../constants/index.js'
 import { motion } from "motion/react"
-
+import { ABOUT_TEXT } from '../constants/index.js'
+import server from '../assets/server_b.mp4'
 
 const About = () => {
   return (
-    <div className="border-b border-neutral-900 pb-4">
-        <h2 className="my-20 text-center text-4xl">
-            About
-            <span className="text-neutral-500"> Me</span>
-        </h2>
-        <div className="flex flex-wrap">
-{/*             <motion.div 
-            whileInView={{ opacity: 1, x: 0 }}
-            initial={{ opacity: 0, x: -100 }}
-            transition={{ duration: 0.5 }}
-            className="w-full lg:w-1/2 lg:p-8">
-                <div className="flex items-center justify-center">
-                    <img className="rounded-2xl" src={aboutImg} alt="about" />
-                </div>
-            </motion.div> */}
+    <section id="about" className="section-base">
+      <div className="container mx-auto px-8">
+        <motion.div
+          className="section-header"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <span className="section-number">01</span>
+          <h2 className="section-title">About Me</h2>
+        </motion.div>
 
-          <motion.div 
-            whileInView={{ opacity: 1, x: 0 }}
-            initial={{ opacity: 0, x: -100 }}
-            transition={{ duration: 0.5 }}
-            className="w-full lg:w-1/2 lg:p-8"
-            >
-            <div className="flex justify-center lg:justify-center flex-col items-center">
-                <video 
-                className="rounded-xl w-full max-w-md mb-6"
-                autoPlay 
-                loop 
-                muted 
-                playsInline
-                >
+        <div className="about-grid">
+          <motion.div
+            className="about-video-wrap"
+            initial={{ opacity: 0, x: -60, scale: 0.95 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="video-glass-frame">
+              <video autoPlay loop muted playsInline className="about-video">
                 <source src={server} type="video/mp4" />
-                Your browser does not support the video tag.
-                </video>
+              </video>
+              <div className="video-overlay-glow" />
             </div>
-            </motion.div>
-          
-            <motion.div 
+            <div className="floating-stat stat-1">
+              <span className="stat-num">3+</span>
+              <span className="stat-label">Years Experience</span>
+            </div>
+            <div className="floating-stat stat-2">
+              <span className="stat-num">10+</span>
+              <span className="stat-label">Technologies</span>
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="about-content"
+            initial={{ opacity: 0, x: 60 }}
             whileInView={{ opacity: 1, x: 0 }}
-            initial={{ opacity: 0, x: 100 }}
-            transition={{ duration: 0.5 }}
-            className="w-full lg:w-1/2">
-                <div className="flex justify-center lg:justify-center">
-                        <p className="my-2 max-w-xl py-6">{ABOUT_TEXT}</p>
-                </div>
-            </motion.div>
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <p className="about-text">{ABOUT_TEXT}</p>
+
+            <div className="about-highlights">
+              {[
+                { icon: "⚡", label: "Backend Architecture", desc: "Scalable systems design" },
+                { icon: "🔗", label: "API Development", desc: "RESTful & async patterns" },
+                { icon: "🗄️", label: "Data Engineering", desc: "SQL, NoSQL & pipelines" },
+              ].map(({ icon, label, desc }, i) => (
+                <motion.div
+                  key={i}
+                  className="highlight-card"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 + i * 0.1, duration: 0.6 }}
+                  whileHover={{ y: -4, scale: 1.02 }}
+                >
+                  <span className="highlight-icon">{icon}</span>
+                  <div>
+                    <div className="highlight-label">{label}</div>
+                    <div className="highlight-desc">{desc}</div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </div>
-    </div>
+      </div>
+    </section>
   )
 }
 
