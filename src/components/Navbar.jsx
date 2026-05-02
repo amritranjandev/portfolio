@@ -1,37 +1,68 @@
-import React from 'react'
-// import logo from '../assets/kevinRushLogo.png'
-import logo from '../assets/Ar.png'
-import { FaLinkedin } from 'react-icons/fa'
-import { FaGithub } from 'react-icons/fa'
-// import { FaSquareXTwitter } from 'react-icons/fa' 
-import { FaInstagram } from 'react-icons/fa'
-import { FaMedium } from 'react-icons/fa'
+"use client";
+
+import React from "react";
+import { motion } from "framer-motion";
+import { FaLinkedin, FaGithub, FaMedium } from "react-icons/fa";
 
 const Navbar = () => {
   return (
-    <nav className="flex items-center justify-between py-6">
-        <div className="flex flex-shrink-0 items-center">
-            {/* <img className="mx-2 w-10" src={logo} alt="logo" /> */}
-            <span className="mx-2 w-10 font-bold text-xl">Ar</span>
+    <motion.nav
+      initial={{ y: -40, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-white/5 border-b border-white/10"
+    >
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+
+        {/* LOGO */}
+        <motion.div
+          data-cursor
+          whileHover={{ scale: 1.1 }}
+          className="font-bold text-xl text-white tracking-wide"
+        >
+          Ar
+        </motion.div>
+
+        {/* ICONS */}
+        <div className="flex items-center gap-6 text-xl text-white/70">
+          
+          <motion.a
+            data-cursor
+            href="https://www.linkedin.com/in/amrit-ranjan-professional/"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.2, color: "#0A66C2" }}
+            className="transition"
+          >
+            <FaLinkedin />
+          </motion.a>
+
+          <motion.a
+            data-cursor
+            href="https://medium.com/@amritranjanamc"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.2, color: "#ffffff" }}
+            className="transition"
+          >
+            <FaMedium />
+          </motion.a>
+
+          <motion.a
+            data-cursor
+            href="https://github.com/amritranjandev"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.2, color: "#ffffff" }}
+            className="transition"
+          >
+            <FaGithub />
+          </motion.a>
 
         </div>
-        <div className="m-8 flex items-center justify-center gap-4 text-2xl">
-            <a href="https://www.linkedin.com/in/amrit-ranjan-professional/" target="_blank" rel="noopener noreferrer">
-                <FaLinkedin />
-            </a>
-            {/* <FaGithub/> */}
-            {/* <FaSquareXTwitter/>  */}
-            {/* <FaInstagram/> */}
-            {/* <FaMedium/> */}
-            <a href="https://medium.com/@amritranjanamc" target="_blank" rel="noopener noreferrer">
-                <FaMedium />
-            </a>
-            <a href="https://github.com/amritranjandev" target="_blank" rel="noopener noreferrer">
-                <FaGithub />
-            </a>
-        </div>
-    </nav>
-  )
-}
+      </div>
+    </motion.nav>
+  );
+};
 
-export default Navbar
+export default Navbar;
